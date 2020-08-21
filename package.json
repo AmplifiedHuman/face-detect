@@ -9,10 +9,10 @@
     "clarifai": "^2.9.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-particles-js": "^3.2.1",
-    "react-scripts": "3.4.1",
+    "react-particles-js": "^3.3.0",
+    "react-scripts": "^3.4.3",
     "react-tilt": "^0.1.4",
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.7"
   },
   "scripts": {
     "start": "npm run watch:css && react-scripts start",
@@ -38,8 +38,8 @@
     ]
   },
   "devDependencies": {
-    "autoprefixer": "^9.8.0",
+    "autoprefixer": "^9.8.6",
     "postcss-cli": "^7.1.1",
-    "tailwindcss": "^1.4.6"
+    "tailwindcss": "^1.7.3"
   }
 }
