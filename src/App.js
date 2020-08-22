@@ -29,24 +29,34 @@ class App extends Component {
     this.state = {
       input: "",
       imageUrl: "",
-      box: {},
+      boxes: [],
     };
   }
 
   onInputChange = (event) => this.setState({ input: event.target.value });
 
   calculateFaceLocation = (data) => {
-    const face = data.outputs[0].data.regions[0].region_info.bounding_box;
-    console.log(face);
+    const inputArray = data.outputs[0].data.regions;
+    const image = document.getElementById("inputimage");
+    const width = Number(image.width);
+    const height = Number(image.height);
+
+    const faces = inputArray.map((data) => {
+      const face = data.region_info.bounding_box;
+      return {
+        leftCol: face.left_col * width,
+        rightCol: width - face.right_col * width,
+        topRow: face.top_row * height,
+        bottomRow: height - face.bottom_row * height,
+      };
+    });
+    this.setState({ boxes: faces });
   };
 
   onSubmit = () => {
     this.setState({ imageUrl: this.state.input });
     app.models
-      .predict(
-        "c0c0ac362b03416da06ab3fa36fb58e3",
-        "https://samples.clarifai.com/face-det.jpg"
-      )
+      .predict("c0c0ac362b03416da06ab3fa36fb58e3", this.state.input)
       .then((res) => this.calculateFaceLocation(res))
       .catch((err) => console.log(err));
   };
@@ -66,7 +76,10 @@ class App extends Component {
           onInputChange={this.onInputChange}
           onSubmit={this.onSubmit}
         />
-        <FaceRecognition imageUrl={this.state.imageUrl} />
+        <FaceRecognition
+          imageUrl={this.state.imageUrl}
+          boxes={this.state.boxes}
+        />
       </div>
     );
   }
