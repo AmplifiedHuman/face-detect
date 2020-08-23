@@ -6,6 +6,8 @@ import Rank from "./components/Rank/Rank";
 import Particles from "react-particles-js";
 import Clarifai from "clarifai";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
+import Signin from "./components/Signin/Signin";
+import Register from "./components/Register/Register";
 
 const params = {
   particles: {
@@ -30,6 +32,8 @@ class App extends Component {
       input: "",
       imageUrl: "",
       boxes: [],
+      route: "signin",
+      isSignedIn: false,
     };
   }
 
@@ -61,7 +65,17 @@ class App extends Component {
       .catch((err) => console.log(err));
   };
 
+  onRouteChange = (route) => {
+    if (route === "signout") {
+      this.setState({ isSignedIn: false });
+    } else if (route === "home") {
+      this.setState({ isSignedIn: true });
+    }
+    this.setState({ route: route });
+  };
+
   render() {
+    const { isSignedIn, imageUrl, route, boxes } = this.state;
     return (
       <div className="App">
         <Particles
@@ -69,17 +83,25 @@ class App extends Component {
           style={{ position: "fixed", zIndex: "-999" }}
           params={params}
         />
-        <Navigation />
+        <Navigation
+          onRouteChange={this.onRouteChange}
+          isSignedIn={isSignedIn}
+        />
         <Logo />
-        <Rank />
-        <ImageLinkForm
-          onInputChange={this.onInputChange}
-          onSubmit={this.onSubmit}
-        />
-        <FaceRecognition
-          imageUrl={this.state.imageUrl}
-          boxes={this.state.boxes}
-        />
+        {this.state.route === "signin" ? (
+          <Signin onRouteChange={this.onRouteChange} />
+        ) : route === "home" ? (
+          <>
+            <Rank />
+            <ImageLinkForm
+              onInputChange={this.onInputChange}
+              onSubmit={this.onSubmit}
+            />
+            <FaceRecognition imageUrl={imageUrl} boxes={boxes} />
+          </>
+        ) : (
+          <Register onRouteChange={this.onRouteChange} />
+        )}
       </div>
     );
   }
