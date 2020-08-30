@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import Navigation from './components/Navigation/Navigation';
-import Logo from './components/Logo/Logo';
-import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
-import Rank from './components/Rank/Rank';
-import Particles from 'react-particles-js';
-import Clarifai from 'clarifai';
-import FaceRecognition from './components/FaceRecognition/FaceRecognition';
-import Signin from './components/Signin/Signin';
-import Register from './components/Register/Register';
+import React, { Component } from "react";
+import Navigation from "./components/Navigation/Navigation";
+import Logo from "./components/Logo/Logo";
+import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
+import Rank from "./components/Rank/Rank";
+import Particles from "react-particles-js";
+import Clarifai from "clarifai";
+import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
+import Signin from "./components/Signin/Signin";
+import Register from "./components/Register/Register";
 
 const params = {
   particles: {
@@ -22,24 +22,24 @@ const params = {
 };
 
 const app = new Clarifai.App({
-  apiKey: '***REMOVED***',
+  apiKey: "9f5991a49a0a408992bb9bfa4582fcf5",
 });
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: '',
-      imageUrl: '',
+      input: "",
+      imageUrl: "",
       boxes: [],
-      route: 'signin',
+      route: "signin",
       isSignedIn: false,
       user: {
-        id: '',
-        name: '',
-        email: '',
+        id: "",
+        name: "",
+        email: "",
         entries: 0,
-        joined: '',
+        joined: "",
       },
     };
   }
@@ -60,7 +60,7 @@ class App extends Component {
 
   calculateFaceLocation = (data) => {
     const inputArray = data.outputs[0].data.regions;
-    const image = document.getElementById('inputimage');
+    const image = document.getElementById("inputimage");
     const width = Number(image.width);
     const height = Number(image.height);
 
@@ -79,14 +79,14 @@ class App extends Component {
   onSubmit = () => {
     this.setState({ imageUrl: this.state.input });
     app.models
-      .predict('a403429f2ddf4b49b307e318f00e528b', this.state.input)
+      .predict("a403429f2ddf4b49b307e318f00e528b", this.state.input)
       .then((res) => {
         if (res) {
-          fetch('http://localhost:3001/image', {
-            method: 'put',
+          fetch("http://localhost:3001/image", {
+            method: "put",
             headers: {
-              'Content-Type': 'application/json',
-              Accept: 'application/json',
+              "Content-Type": "application/json",
+              Accept: "application/json",
             },
             body: JSON.stringify({
               id: this.state.user.id,
@@ -103,10 +103,10 @@ class App extends Component {
   };
 
   onRouteChange = (route) => {
-    if (route === 'signout') {
-      this.setState({ isSignedIn: false, route: 'signin' });
+    if (route === "signout") {
+      this.setState({ isSignedIn: false, route: "signin" });
       return;
-    } else if (route === 'home') {
+    } else if (route === "home") {
       this.setState({ isSignedIn: true });
     }
     this.setState({ route: route });
@@ -115,10 +115,10 @@ class App extends Component {
   render() {
     const { isSignedIn, imageUrl, route, boxes } = this.state;
     return (
-      <div className='App'>
+      <div className="App">
         <Particles
-          height='100vh'
-          style={{ position: 'fixed', zIndex: '-999' }}
+          height="100vh"
+          style={{ position: "fixed", zIndex: "-999" }}
           params={params}
         />
         <Navigation
@@ -126,9 +126,9 @@ class App extends Component {
           isSignedIn={isSignedIn}
         />
         <Logo />
-        {this.state.route === 'signin' ? (
+        {this.state.route === "signin" ? (
           <Signin onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
-        ) : route === 'home' ? (
+        ) : route === "home" ? (
           <>
             <Rank
               name={this.state.user.name}
