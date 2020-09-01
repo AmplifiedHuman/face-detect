@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
-      name: "",
+      email: '',
+      password: '',
+      name: '',
     };
   }
 
@@ -22,11 +22,11 @@ class Register extends React.Component {
   };
 
   onSubmitSignIn = () => {
-    fetch("http://localhost:3001/register", {
-      method: "post",
+    fetch('https://powerful-mountain-92874.herokuapp.com/register', {
+      method: 'post',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
       body: JSON.stringify({
         email: this.state.email,
@@ -36,46 +36,46 @@ class Register extends React.Component {
     })
       .then((data) => data.json())
       .then((user) => {
-        if (user) {
+        if (user.id) {
           this.props.loadUser(user);
-          this.props.onRouteChange("home");
+          this.props.onRouteChange('home');
         }
       });
   };
 
   render() {
     return (
-      <div className="flex flex-col">
-        <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
-          <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
-            <h1 className="mb-8 text-3xl text-center">Register</h1>
+      <div className='flex flex-col'>
+        <div className='container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2'>
+          <div className='bg-white px-6 py-8 rounded shadow-md text-black w-full'>
+            <h1 className='mb-8 text-3xl text-center'>Register</h1>
             <input
-              type="text"
-              className="block border border-grey-light w-full p-3 rounded mb-4"
-              name="fullname"
-              placeholder="Full Name"
+              type='text'
+              className='block border border-grey-light w-full p-3 rounded mb-4'
+              name='fullname'
+              placeholder='Full Name'
               onChange={this.onNameChange}
             />
 
             <input
-              type="text"
-              className="block border border-grey-light w-full p-3 rounded mb-4"
-              name="email"
-              placeholder="Email"
+              type='text'
+              className='block border border-grey-light w-full p-3 rounded mb-4'
+              name='email'
+              placeholder='Email'
               onChange={this.onEmailChange}
             />
 
             <input
-              type="password"
-              className="block border border-grey-light w-full p-3 rounded mb-4"
-              name="password"
-              placeholder="Password"
+              type='password'
+              className='block border border-grey-light w-full p-3 rounded mb-4'
+              name='password'
+              placeholder='Password'
               onChange={this.onPasswordChange}
             />
 
             <button
-              className="bg-pink-500 hover:bg-pink-400 text-white font-bold py-3 rounded focus:outline-none focus:shadow-outline w-full"
-              type="button"
+              className='bg-pink-500 hover:bg-pink-400 text-white font-bold py-3 rounded focus:outline-none focus:shadow-outline w-full'
+              type='button'
               onClick={this.onSubmitSignIn}
             >
               Sign Up

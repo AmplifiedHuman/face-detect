@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
 const FaceRecognition = ({ imageUrl, boxes }) => {
   const displayBoxes = boxes.map((box, i) => {
     return (
       <div
-        className="bounding-box"
+        className='bounding-box'
         style={{
           top: box.topRow,
           right: box.rightCol,
@@ -17,14 +17,14 @@ const FaceRecognition = ({ imageUrl, boxes }) => {
   });
 
   return (
-    <div className="flex justify-center">
-      <div className="mx-auto my-4 absolute">
+    <div className='flex justify-center'>
+      <div className='mx-auto my-4 absolute'>
         <img
           src={imageUrl}
-          alt=""
-          width="500px"
-          height="auto"
-          id="inputimage"
+          alt=''
+          width='500px'
+          height='auto'
+          id='inputimage'
         />
         {displayBoxes}
       </div>

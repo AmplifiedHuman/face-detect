@@ -16,7 +16,7 @@
   },
   "scripts": {
     "start": "npm run watch:css && react-scripts start",
-    "build": "react-scripts build",
+    "build": "env NODE_ENV=production npm run build:css && react-scripts build",
     "build:css": "npx tailwindcss build src/assets/tailwind.css -o src/assets/style.css",
     "watch:css": "postcss src/assets/tailwind.css -o src/assets/style.css",
     "test": "react-scripts test",
