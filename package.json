@@ -19,7 +19,7 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "npm run watch:css && react-scripts start",
+    "start": "env NODE_ENV=production npm run build:css && react-scripts start",
     "build": "env NODE_ENV=production npm run build:css && react-scripts build",
     "build:css": "npx tailwindcss build src/assets/tailwind.css -o src/assets/style.css",
     "watch:css": "postcss src/assets/tailwind.css -o src/assets/style.css",

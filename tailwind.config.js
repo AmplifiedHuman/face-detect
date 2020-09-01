@@ -1,8 +1,6 @@
 module.exports = {
-  purge: ['./src/components/*.js'],
-  theme: {
-    extend: {},
-  },
+  purge: ['./src/components/**/*.js', './src/*.js'],
+  theme: {},
   variants: {},
   plugins: [],
 };
