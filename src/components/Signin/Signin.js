@@ -6,6 +6,7 @@ class Signin extends React.Component {
     this.state = {
       email: '',
       password: '',
+      failedAttempt: false,
     };
   }
 
@@ -32,14 +33,22 @@ class Signin extends React.Component {
       .then((data) => data.json())
       .then((user) => {
         if (user.id) {
+          this.setState({ failedAttempt: false });
           this.props.loadUser(user);
           this.props.onRouteChange('home');
+        } else {
+          this.setState({ failedAttempt: true });
         }
       });
   };
 
   render() {
     const { onRouteChange } = this.props;
+    let inputClasses =
+      'block border w-full p-2 rounded focus:outline-none focus:shadow-outline shadow';
+    if (this.state.failedAttempt) {
+      inputClasses += ' border-red-500';
+    }
     return (
       <div className='w-full max-w-sm mx-auto px-2'>
         <form className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'>
@@ -52,14 +61,14 @@ class Signin extends React.Component {
               Email
             </label>
             <input
-              className='block border border-grey-light w-full p-2 rounded mb-4 focus:outline-none focus:shadow-outline shadow'
+              className={inputClasses}
               id='email'
               type='text'
               placeholder='Email'
               onChange={this.onEmailChange}
             />
           </div>
-          <div className='mb-4'>
+          <div>
             <label
               className='block text-gray-700 text-md font-bold mb-2'
               htmlFor='password'
@@ -67,14 +76,19 @@ class Signin extends React.Component {
               Password
             </label>
             <input
-              className='block border border-grey-light w-full p-2 rounded mb-6 focus:outline-none focus:shadow-outline shadow'
+              className={inputClasses}
               id='password'
               type='password'
               placeholder='******************'
               onChange={this.onPasswordChange}
             />
           </div>
-          <div className='flex items-center justify-between mb-4'>
+          <div className="mt-2">
+            {this.state.failedAttempt && (
+              <p className='text-red-500 text-xs'>Incorrect Login Details.</p>
+            )}
+          </div>
+          <div className='flex items-center justify-between my-6'>
             <button
               className='bg-pink-500 hover:bg-pink-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
               type='button'

@@ -6,6 +6,7 @@ class Register extends React.Component {
       email: '',
       password: '',
       name: '',
+      failedAttempt: false,
     };
   }
 
@@ -37,13 +38,20 @@ class Register extends React.Component {
       .then((data) => data.json())
       .then((user) => {
         if (user.id) {
+          this.setState({ failedAttempt: false });
           this.props.loadUser(user);
           this.props.onRouteChange('home');
+        } else {
+          this.setState({ failedAttempt: true });
         }
       });
   };
 
   render() {
+    let emailClasses = 'block border w-full p-3 rounded';
+    if (this.state.failedAttempt) {
+      emailClasses += ' border-red-500';
+    }
     return (
       <div className='flex flex-col'>
         <div className='container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2'>
@@ -51,7 +59,7 @@ class Register extends React.Component {
             <h1 className='mb-8 text-3xl text-center'>Register</h1>
             <input
               type='text'
-              className='block border border-grey-light w-full p-3 rounded mb-4'
+              className='block border w-full p-3 rounded mb-4'
               name='fullname'
               placeholder='Full Name'
               onChange={this.onNameChange}
@@ -59,15 +67,21 @@ class Register extends React.Component {
 
             <input
               type='text'
-              className='block border border-grey-light w-full p-3 rounded mb-4'
+              className={emailClasses}
               name='email'
               placeholder='Email'
               onChange={this.onEmailChange}
             />
 
+            <div className='mt-2'>
+              {this.state.failedAttempt && (
+                <p className='text-red-500 text-xs'>Invalid Email</p>
+              )}
+            </div>
+
             <input
               type='password'
-              className='block border border-grey-light w-full p-3 rounded mb-4'
+              className='block border w-full p-3 rounded my-4'
               name='password'
               placeholder='Password'
               onChange={this.onPasswordChange}
